@@ -2,17 +2,36 @@ import { useEffect } from "react";
 import AddTask from "./components/AddTask";
 import Tasks from "./components/Tasks";
 import { useState } from "react";
-import {v4} from 'uuid';
+import { v4 } from "uuid";
 
 function App() {
   const [tasks, setTasks] = useState(
     JSON.parse(localStorage.getItem("tasks")) || []
- 
   );
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks))
-  }, [tasks]) 
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos?_limit=10",
+          {
+            method: "GET",
+          }
+        );
+        const data = await response.json();
+        setTasks(data); // Define os dados no estado
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+  
+    fetchTasks(); // Chamada da função
+  }, []); // Dependências vazias para executar apenas uma vez
+  
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map((task) => {
@@ -27,7 +46,7 @@ function App() {
   function onDeleteTaskClick(taskid) {
     const newTasks = tasks.filter((task) => task.id !== taskid);
     setTasks(newTasks);
-  }
+  };
 
   function onAddTaskSubmit(title, description) {
     const newTask = {
@@ -45,7 +64,7 @@ function App() {
         <h1 className="text-3xl text-slate-100 font-bold text-center">
           Gerenciador de Tarefas
         </h1>
-        <AddTask  onAddTaskSubmit={ onAddTaskSubmit}/>
+        <AddTask onAddTaskSubmit={onAddTaskSubmit} />
         <Tasks
           tasks={tasks}
           onTaskClick={onTaskClick}
