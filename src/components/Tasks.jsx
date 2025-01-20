@@ -7,8 +7,8 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
   function onSeeDetailsClick(task) {
     const query = new URLSearchParams();
     query.set("title", task.title);
-    query.set("description", task.description); // Corrigido "descripton" para "description"
-    navigate(`/task?${query.toString()}`); // Corrigido para usar crase
+    query.set("description", task.description); 
+    navigate(`/task?${query.toString()}`); 
   }
 
   return (

@@ -13,7 +13,7 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await fetch(
@@ -30,7 +30,7 @@ function App() {
     };
   
     fetchTasks(); // Chamada da função
-  }, []); // Dependências vazias para executar apenas uma vez
+  }, []); */
   
 
   function onTaskClick(taskId) {
